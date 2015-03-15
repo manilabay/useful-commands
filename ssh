@@ -25,6 +25,7 @@ ssh-copy-id -i /home/rag/.ssh/id_dsa.pub g30web@mctux.com
 #para hacer que sea passphraseless , es decir que no pida la frase clave , tenemos que hacer un ssh-add para cachear la key privada en el agent ssh, ssh-agent
 #local-machine
 ssh-add /home/rag/.ssh/id_dsa
+#puede ser una buena idea añadir esta línea en el boot del sistema ya que así no se quedarán los scripts sin funcionar , aquellos que usen ssh o scp en sus operaciones
 
 
 
