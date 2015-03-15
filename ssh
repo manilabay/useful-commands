@@ -1,0 +1,31 @@
+#config
+
+guide used: 
+part1: http://www.funtoo.org/OpenSSH_Key_Management,_Part_1
+part2: http://www.funtoo.org/OpenSSH_Key_Management,_Part_2
+part3: http://www.funtoo.org/OpenSSH_Key_Management,_Part_3
+
+Me quede en la configuración de que cada reinicio hace falta hacer un ssh-add para añadir la clave privada al ssh-agent y así conseguir que no pida la passphrase durante toda una sesión.
+Al reiniciar la sesion de nuevo pedirá la passphrase hasta que se haga el ssh-add para que el el ssh-agent la mantenga en caché. Este problem de usar ssh-add en cada nueva sesion o reinicio se puede resolver 
+si se usa el paquete keychain de funtoo explicado a partir del part2 de la guía.
+
+En la configuración realizada se ha procedido a generar un pareja de claves privadas y publica con ssh-keygen de tipo dsa (ssh v2) 
+maquinas afectadas: lenovo-dev como cliente ssh y propietario de la clave privada y mctux.com donde se ha transferido la clave pública id_dsa.pub
+
+#useful-commands
+#para generar un pareja de claves publica y privada nueva en la maquina local
+#local-machine
+ssh-keygen -t dsa
+
+#para copiar la clave publica al servidor remoto
+#local-machine
+ssh-copy-id -i /home/rag/.ssh/id_dsa.pub g30web@mctux.com
+
+#si usamos passphrase, en cada reinicio de sesión u claro tambien reinicio de maquina ;) , el agente 
+#para hacer que sea passphraseless , es decir que no pida la frase clave , tenemos que hacer un ssh-add para cachear la key privada en el agent ssh, ssh-agent
+#local-machine
+ssh-add /home/rag/.ssh/id_dsa
+
+
+
+
