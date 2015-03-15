@@ -1,0 +1,53 @@
+#CREAR REPOS NUEVOS
+##local
+mkdir proyectonuevo
+cd proyectonuevo
+git init 
+git add .
+git commit -m 'starting nameproject ;)'
+
+##remoto
+ssh g30web@mcutx.com
+mkdir ansible.mctux.git
+cd ansible.mctux.git
+git init --bare ##to initialize a empty git repo
+exit
+
+##local
+git remote add origin ssh://g30web@mctux.com:/~/ansible.mctux.git
+git push origin master
+
+#Si por ejemplo te confundes en establecer la url, olvidas poner .com o cualquier cosa parecida ;) puedes hacer lo siguiente
+git remote set-url origin ssh://g30web@mctux.com:~/ansible.mctux.git
+#para listar los repos remotos
+git remote -v
+
+#para eliminar un repo remote, lo que hace es eliminar en local el enlace url al repo que hemos asignado con el comando git remote add origin ssh....
+git remote rm origin
+
+#para ver el estado de tu repo, super importante la info que aporta
+git status
+
+#para clonar el repo en otra maquina
+git clone ssh://g30web@mctux.com:/~/ansible.mctux.git
+
+#TRABAJAR CON VERSIONES/RELEASES
+git tag -a v0.1 -m 'my first version 0.1' # para crear una version del ultimo cambio
+git push origin --tags # para subir todas las versiones al servidor y compartirlas
+git show v0.1 # para mostrar la version v0.1
+git tag #para ver las tags/versiones que tienes
+git log --pretty=oneline #para ver el log de los cambios por lineas
+git tag -a v1.2 -m 'version 1.2' 9fceb02 # para crear una version a través de la de un commit concreto antiguo poniendo al final del comando  parte de su suma de comprobación
+
+#SUBIR
+git commit -am 'here changes comments' # para hacer un commit añadiendo un comentario
+git push origin # para subir cambios al repo git
+
+#BAJAR
+git pull origin master #para bajar ultimos cambios y hacer un merge con tu codigo
+
+#ADD ARCHIVOS
+git add compress.sh #añadimos el fichero compress.sh
+git commit -m 'adding compress.sh' #hacemos commit
+git push origin #subimos el cambio
+
