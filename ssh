@@ -27,6 +27,8 @@ ssh-copy-id -i /home/rag/.ssh/id_dsa.pub g30web@mctux.com
 ssh-add /home/rag/.ssh/id_dsa
 #puede ser una buena idea añadir esta línea en el boot del sistema ya que así no se quedarán los scripts sin funcionar , aquellos que usen ssh o scp en sus operaciones
 
+#un día hay que seguir con keychain
+#guide to use: http://www.funtoo.org/Keychain
 
 
 

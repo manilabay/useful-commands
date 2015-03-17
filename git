@@ -51,3 +51,11 @@ git add compress.sh #añadimos el fichero compress.sh
 git commit -m 'adding compress.sh' #hacemos commit
 git push origin #subimos el cambio
 
+#BORRAR ARCHIVOS
+#para borrarlo del sistema hay que seguir haciendo un rm -rf archivo o rm -rf directorio
+#borrar del tree y del index de git
+git rm archivo
+#borrar un directorio entero
+git rm -r directorio
+
+
