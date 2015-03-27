@@ -12,4 +12,10 @@
                 state=started
   sudo: false
 
+#wait for 22 port
+- name: waiting for server to come back, checking port 22
+  local_action: wait_for host={{ inventory_hostname }} port=22
+                state=started
+  sudo: false
+
 

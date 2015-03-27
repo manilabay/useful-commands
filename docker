@@ -1,0 +1,16 @@
+#INSTALL AND FIRST CONFIGS
+
+#sudo apt-get install apparmor
+
+#installing docker
+sudo wget -qO- https://get.docker.com/ | sh
+
+#start the docker daemon
+sudo service docker start
+
+#add rag to docker group to avoid always to use sudo , because docker daemon run in a unix socket and the owner of socket is : root ;)
+sudo usermod -aG docker rag
+#a partir de aqui podemos correr docker sin tener que poner siempre sudo delante
+
+#para descargar y usar una imagen hacemos
+docker pull cpuguy83/nagios 

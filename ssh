@@ -36,9 +36,11 @@ sudo apt-get install keychain
 #añadimos lo siguiente en el .profile del usuario rag para que las variables de entorno de SSH_AUTH_SOCK y SSH_AGENT_PID se exporten y que el agente vea nuestra clave privada
 sudo nano /home/rag/.profile
 
-#añadimos al final...
+#añadimos al final del .profile ... para que en cada inicio exporte las variables que necesita que necesita para que se comunique ssh-agent con los sockets abiertos de ssh
 eval $(keychain --eval --agents ssh id_dsa)
+#Esta misma linea anterior hay que añadirla en cada script que usemos o que lanzemos desde crontab
 
+#El mismo efecto lo podríamos conseguir poniendo la siguiente linea source antes de cualquier ssh que hagamos
 #Luego nos falta anteponer a cualquier comando ssh que hagamos , ya sea en el crontab o en nuestros scripts usar
 source $HOME/.keychain/$HOSTNAME-sh
 
