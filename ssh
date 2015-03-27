@@ -30,5 +30,19 @@ ssh-add /home/rag/.ssh/id_dsa
 #un día hay que seguir con keychain
 #guide to use: http://www.funtoo.org/Keychain
 
+#Seguimos con keychain, pues para lanzar playbooks de ansible y querer encadenarlos en el crontab, el proceso cron no puede acceder al ssh-agent y falla la conexión ssh
+sudo apt-get install keychain
+
+#añadimos lo siguiente en el .profile del usuario rag para que las variables de entorno de SSH_AUTH_SOCK y SSH_AGENT_PID se exporten y que el agente vea nuestra clave privada
+sudo nano /home/rag/.profile
+
+#añadimos al final...
+eval $(keychain --eval --agents ssh id_dsa)
+
+#Luego nos falta anteponer a cualquier comando ssh que hagamos , ya sea en el crontab o en nuestros scripts usar
+source $HOME/.keychain/$HOSTNAME-sh
+
+
+
 
 
