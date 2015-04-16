@@ -1,0 +1,10 @@
+#what i did ;)
+
+#installing docker composer
+sudo pip install -U docker-compose
+
+#provisioning - pulling
+docker run nginx
+docker run centmindmod/docker-centos66-mariadb10
+docker run php-fpm
+

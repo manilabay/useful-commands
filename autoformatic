@@ -1,0 +1,36 @@
+
+#FLOW
+#autoformatic docker flow
+idea: 
+Docker in Docker idea. Run a custom boot2docker or any home customized small linux with docker built-in to start. 
+And call another docker image with --priviliged mode with the tools and scripts need to run already prepare.
+Leave open ssh server and get public keys to control the item remotely with ansible. So control the remote installation too.
+Control with ansible all our installation process from start to end when is possible.
+
+0. Client register in our page and leave some information about data need in our installation, like the username they like.
+
+Once boot2docker or any started, flow is seems next steps:
+0. boot2docker or custom small linux get our public key via wget. Then do a ssh reverse tunnel to allow connection from our server to remote installations, and run ansible things inside.
+1. wget linuxmint latest iso, depends of arch 32bits, 64bits and the desktop system: gnome, cinnamon, xfce. Two general options: cinnamon for new computers, and xfce for old computers. Getting this info via ansible facts from remote. And save it into our database.
+2. Burn iso into second pendrive partition. First partition is for boot2docker partition.
+3. Place automint preseed file and syslinux.cfg in the linuxmint burned folder, and somescripts. I can do it via scp or another ansible method.
+4. Backup the data of the user into a folder calle backup inside the second pendrive partition too. Then Second pendrive partition will to host burned linux iso and backup of the user.
+5. Run script to modify syslinux.cfg of first partition autoformatic pendrive to jump the boot to the second partition autoformatic pendrive to get next boot into linuxmint autoformatic sillent installation
+6. Reboot and cross the fingers ;)
+7. Now is booting the installation with autoformatic and the user will to see the linuxmint installation without any interaction to do.
+8. After installation, run some scripts from preseed file to Restore all the data from second autoformatic pendrive partition - folder backup into the new partition in primary hard disk of installation. (Improve: it is good if i build a script to place each group of data in each new folder of linux system, for example images in the images folder, Documents in documents, and so. But it depends if the user respect the normal windows folder architecture before)
+9. After isntallation it restart automatically. I can send nagios alert to inform about the install race is end. Before steps need another logs/alerts to inform too (i need think on this and implement this too)
+10. Once, it started say Wellcome to the user and say to user the system has a last step to install all custom users applications and configuration special menu buttons in down side
+11. When system started it doing a ssh reverse tunnel to get remote access on it from our ansible playbooks to run configurations steps
+12. Install and config packages with our custom ansible playbooks
+13. Inform to the user and a few marketing things and say enjoy your linux and your happy autoformatic installation! ;)
+
+
+
+ 
+
+
+
+
+
+

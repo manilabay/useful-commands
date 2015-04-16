@@ -1,0 +1,45 @@
+#para detectar cual es el disco usb lanzamos y comparamos con la info proporcionada por el usuario en la web
+sfdisk -s
+#lo anterior nos saca todos los tañaos de los discos
+
+#para extraer el tamaño del disco usb o fisico
+sfdisk -s /dev/sdb
+
+#para borrar todas las particiones del usb
+dd bs=512 count=63 if=/dev/zero of=/dev/sdb
+
+#para quemar un iso en nuestra partición de boot del pendrive
+sudo dd bs=4M if=/home/rag/Descargas/software/ISO/boot2docker.iso of=/dev/sdb1
+#también puedo quemar mi autoformatic.iso basada en slitaz de la misma forma
+
+#y si lo quiero con una simple barra de progreso con pv
+sudo dd bs=4M if=/home/rag/Descargas/software/ISO/ubcd533.iso | pv -s 700M | sudo dd of=/dev/sdc1 bs=4M
+
+#para cambiar el flag de arranque a la primera particion, para indicar que la de arranque es la 2 sería con -A2 y asi
+sudo sfdisk -A1 /dev/sdb
+
+#para borrar todas las particiones de un pendrive usamos -s para que no pregunte nada (modo script)
+sudo parted /dev/sdb mklabel msdos -s
+
+#para crear una partición primaria ext4 de 512 MB
+sudo parted -s -- /dev/sdb unit MB mkpart primary ext4 1 512
+
+#para crear una segunda partición primaria ext4 desde 512 hasta el final
+sudo parted -s -- /dev/sdb unit MB mkpart primary ext4 512 -0
+
+#para alinear la partición
+sudo parted -s -- /dev/sdb align-check opt 1
+
+#formateamos la particiones
+sudo mkfs.ext4 /dev/sdb1 -L "autoformaticboot" 
+sudo mkfs.ext4 /dev/sdb2 -L "autoformatic"
+
+
+#para establecer la partición 1 como boot
+sudo parted -s -- /dev/sdb set 1 boot on
+
+#para probar la partición y empezar a poder usarla
+partprobe /dev/sdd
+
+
+

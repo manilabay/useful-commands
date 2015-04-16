@@ -1,0 +1,2 @@
+#boot from pendrive sdb2
+qemu-system-x86_64 -usb -usbdevice disk:/dev/sdb2
