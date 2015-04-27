@@ -1,0 +1,13 @@
+ssh g30web@mctux.com
+screen -S usd.ingest.trade -t usd.ingest.trade
+cd btcflux/run
+./ingest.trade.py btc_usd
+
+ssh g30web@mctux.com
+screen -S usd.ingest.price -t usd.ingest.price
+cd btcflux/run
+./ingest.price.py btc_usd
+
+
+
+
