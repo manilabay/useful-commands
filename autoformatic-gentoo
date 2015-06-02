@@ -1,0 +1,149 @@
+#para ejecutar la maquina boot2docker hacemos
+docker run -it --privileged -v /var/lib/docker debian:wheezy bash
+
+#luego para entrar en la maquina boot2docker entramos con usuario docker y pwd tcuser
+ssh docker@192.168.1.52
+
+#packages
+apt-get update; apt-get install openssh-server parted wget bzip2 nano -y
+
+#partitioning
+parted
+parted -a optimal /dev/sda
+mkfs.ext2 /dev/sda2
+mke2fs -T small /dev/sda2
+mke2fs -j -T small /dev/sda4
+mkfs.ext2 /dev/sda2
+mkfs.ext4 /dev/sda4
+mkswap /dev/sda3
+swapon /dev/sda3
+
+#mount 
+mkdir /mnt/gentoo
+mount /dev/sda4 /mnt/gentoo
+
+mkdir /mnt/gentoo/boot
+mount /dev/sda2 /mnt/gentoo/boot
+
+date
+date 050612272015
+
+#download stage
+cd /mnt/gentoo
+
+#wget stage with right arch, need a small script
+wget ....
+
+#unpack
+tar xvjpf stage3-amd64-20150430.tar.bz2
+
+#config before to start to compile it
+echo 'MAKEOPTS="-j2"' >> /mnt/gentoo/etc/portage/make.conf
+
+#revisar doc en la siguiente url para ajustar mas la config del archivo make.conf
+https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Installation/es
+
+#servidores de replica, mirrors, pendiente de configurar
+
+#config dns
+cp -L /etc/resolv.conf /mnt/gentoo/etc/
+
+#mount filesystems requirements to support the install
+mount -t proc proc /mnt/gentoo/proc
+mount --rbind /sys /mnt/gentoo/sys
+mount --make-rslave /mnt/gentoo/sys
+mount --rbind /dev /mnt/gentoo/dev
+mount --make-rslave /mnt/gentoo/dev
+
+#extra mount filesystems operations (when you install from no-gentoo-media installation methods)
+rm /dev/shm && mkdir /dev/shm
+mount -t tmpfs -o nosuid,nodev,noexec shm /dev/shm
+chmod 1777 /dev/shm
+
+#come in new ambient, chroot...
+chroot /mnt/gentoo /bin/bash
+source /etc/profile
+export PS1="(chroot) $PS1"
+
+#install portage snapshot, con emerge-webrsync installmos desde los servidores replica
+emerge-webrsync
+
+#read news
+eselect news read
+
+#elegir el perfil adecuado, aqui hay que hacer un script para primero hacer
+eselect profile list
+#y luego elegir el correspondiente a la primera linea de desktop que aparezca
+eselect profile set 3
+
+#config variable USE, se podría poner a medida -kde -qt4 para obviar luego en todas las compilaciones soportes para kde y qt4
+#se debe hacer en /etc/portage/make.conf , haciendo un sed para añadir las opciones -kde -qt4 al final de USE="bindist mmx sse sse2"
+
+#comando sed ... para modificar USE... en /etc/portage/make.conf
+
+#config systemd (opcional)
+#A ver: https://wiki.gentoo.org/wiki/Systemd
+
+#config timezone, aqui hay que preparar un script para indicar la zona horaria de cada usuario
+echo "Europe/Madrid" > /etc/timezone
+emerge --config sys-libs/timezone-data
+
+#config locales
+echo "es_ES ISO-8859-1" >> /etc/locale.gen
+echo "es_ES.UTF-8 UTF-8" >> /etc/locale.gen
+locale-gen
+#para testear ejecutamos locale -a , para verificar que las localizaciones seleccionadas están ahora disponibles
+
+#config locales for all the system, Hay que preparar un script para seleccionar justo nuestras locales, haciendo un grep y un cut nos basta
+eselect locale list 
+#despues de capturar el numero de la lista con el cut, hacemos
+#por ejemplo si es   [5]   es_ES.utf8
+eselect locale set 5
+
+#lo siguiente parece opcional
+echo 'LC_COLLATE="C"' >> /etc/env.d/02locale
+
+#refresh env variables
+env-update && source /etc/profile
+
+#CONFIG THE NUCLEO
+
+#INSTALL SOURCES
+#for amd64 is this:
+#hay que mirar para i386 si difiere o no el comando siguiente
+#en el manual aparece usando el parametro --ask pero no podemos usarlo porque se nos detendria y preguntaria
+#emerge --ask sys-kernel/gentoo-sources
+emerge sys-kernel/gentoo-sources
+
+#config kernel in automatic mode
+#en el manual aparece usando el parametro --ask pero no podemos usarlo porque se nos detendria y preguntaria
+#emerge --ask sys-kernel/genkernel
+emerge sys-kernel/genkernel
+
+#comprobar que en /etc/fstab la partición que tenga en el segundo campo "/boot" apunte correctamente al numero de partición correcto que corresponde con boot cuando se hace parted print
+#esto se podría chequear con un script haciendo un parted print | grep boot | cut somefield... y un cat /etc/fstab | grep boot | cut ...
+#manualmente seria
+nano -w /etc/fstab
+
+#compile kernel sources for all hardware, it will delay a few
+genkernel all
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

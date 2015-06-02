@@ -1,0 +1,9 @@
+wget http://localhost:8080/jnlpJars/jenkins-cli.jar
+
+java -jar jenkins-cli.jar -s http://localhost:8080 install-plugin \
+checkstyle cloverphp dry htmlpublisher jdepend plot pmd violations xunit clover
+
+java -jar jenkins-cli.jar -s http://localhost:8080 safe-restart
+
+java -jar jenkins-cli.jar -s http://localhost:8080 reload-configuration
+

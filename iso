@@ -1,0 +1,8 @@
+#para extraer una iso a una carpeta
+7z x iso_file.iso -oautoformatic-lmint64-cinnamon
+
+#para crear una iso a partir de una carpeta 
+mkisofs -o /home/user/Desktop/test/Ubuntu.iso /home/user/Desktop/test
+
+#en el caso de autoformatic con linuxmint
+ mkisofs -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o autoformatic-lmint64-cinnamon.iso autoformatic-lmint64-cinnamon

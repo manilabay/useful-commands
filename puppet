@@ -1,0 +1,10 @@
+#when you run hiera commmand to debug your hierarchy you need specify where your hiera.yaml live, because hiera command search it on /etc/hiera.yaml 
+#we need to create a symbolic link, linking where we have it, ok in /etc/puppet/hiera.yaml , normally
+sudo ln -s /etc/puppet/hiera.yaml /etc/hiera.yaml
+
+
+#Puppet runs as a daemon on the background every hour, but sometimes it is useful to trigger a run manually. 
+#So, let's get a root shell on our new VM and force a run to apply the new changes.
+ssh root@training-joe.cern.ch puppet agent -t -v
+
+

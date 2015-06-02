@@ -1,0 +1,77 @@
+
+
+#installing awscli
+sudo apt-get install awscli -y
+sudo apt-get install ec2-api-tools -y
+sudo apt-get install ec2-ami-tools -y
+#That methods of install maybe is dis-updated
+
+#Better you need to install, downloading first the zip and unpack it and setting the variable environments.
+
+
+#install aws cli tools
+sudo pip install awscli
+
+#Install the cloud-utils for metadata
+sudo apt-get install cloud-utils
+#and you can run
+ec2-metadata -i
+
+
+
+#configure aws cli with our credentials and preferences
+aws configure 
+
+AWS Access key ID: mctux
+AWS Secret access key: /home/rag/Descargas/mctux.pem
+Default region name: eu-west-1a
+Default output format: json
+
+#Añadir estas exportaciones de variable al ~/.bashrc
+export AWS_ACCESS_KEY=AKIAJBBUW2XCLSVJ3ISQ
+export AWS_SECRET_KEY=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
+
+#To list the url regions
+ec2-describe-regions
+#Set the region to Ireland
+export EC2_URL=https://ec2.eu-west-1.amazonaws.com
+
+#create keypair
+ec2-create-keypair mctux-aws-pair > ~/mctux-aws-pair.pem
+chmod 400 ~/mctux-aws-pair.pem
+
+#create security group
+ec2-create-group mctux-group -d "Mctux group"
+#authorize it open ssh port
+ec2-authorize mctux-group -p 22 -s 203.0.113.25/32
+
+ec2-run-instances ami-54922623 -t t1.micro -k mctux-aws-pair -g mctux-group
+
+ec2-describe-regions
+ec2-describe-instances
+ec2-describe-group
+ec2-describe-keypairs
+ec2-describe-snapshots
+ec2-describe-volumes
+
+#create a snapshot from a volume
+ec2-create-snapshot vol-6f0bab70 -d "first mctux snapshot"
+#create a volumen from a snapshot, with different size
+ec2-create-volume --snapshot snap-0feb2d24 -z eu-west-1b -s 10
+
+ec2-stop-instances $INSTANCE_ID
+ec2-detach-volume $OLD_VOLUME_ID --instance $INSTANCE_ID --device /dev/sda1
+ec2-attach-volume $VOLUME_ID  --instance $INSTANCE_ID --device /dev/sda1
+ec2-start-instances $INSTANCE_ID
+
+
+
+
+
+
+
+
+
+
+
+

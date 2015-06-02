@@ -1,0 +1,95 @@
+
+#IMPORT from mysql table emp_add from userdb database, bulk the results in the queryresult directory
+
+sqoop import \
+--connect jdbc:mysql://localhost/userdb \
+--username root \
+--table emp_add \
+--m 1 \
+--target-dir /queryresult
+
+#To verify 
+$HADOOP_HOME/bin/hadoop fs -cat /queryresult/part-m-*
+
+#IMPORT sub-set of table data, using where
+sqoop import \
+--connect jdbc:mysql://localhost/userdb \
+--username root \
+--table emp_add \
+--m 1 \
+--where “city =’sec-bad’” \
+--target-dir /wherequery
+
+#To verify
+$HADOOP_HOME/bin/hadoop fs -cat /wherequery/part-m-*
+
+#INCREMENTAL import , using --incremetal append, check-column and last value
+sqoop import \
+--connect jdbc:mysql://localhost/userdb \
+--username root \
+--table emp \
+--m 1 \
+--incremental append \
+--check-column id \
+-last value 1205
+
+#To verify 
+$HADOOP_HOME/bin/hadoop fs -cat /emp/part-m-*1
+
+#IMPORT ALL TABLES
+sqoop import \
+--connect jdbc:mysql://localhost/userdb \
+--username root
+
+#To verify, each table will be a directory in HDFS
+$HADOOP_HOME/bin/hadoop fs -ls
+
+#EXPORT table employee, you need had the table employee created in your mysql database first
+sqoop export \
+--connect jdbc:mysql://localhost/db \
+--username root \
+--table employee \ 
+--export-dir /emp/emp_data
+
+#To verify
+mysql>select * from employee;
+
+#Create jobs
+sqoop job --create myjob \
+--import \
+--connect jdbc:mysql://localhost/db \
+--username root \
+--table employee --m 1
+
+#lists jobs
+sqoop job --list
+
+#Inspect job
+sqoop job --show myjob
+
+#Execute job
+sqoop job --exec myjob
+
+#Execute queries with eval
+sqoop eval \
+--connect jdbc:mysql://localhost/db \
+--username root \ 
+--query “SELECT * FROM employee LIMIT 3”
+
+sqoop eval \
+--connect jdbc:mysql://localhost/db \
+--username root \ 
+-e “INSERT INTO employee VALUES(1207,‘Raju’,‘UI dev’,15000,‘TP’)”
+
+#list databases
+sqoop list-databases \
+--connect jdbc:mysql://localhost/ \
+--username root
+
+#Generate jave Code, DAO, to get access the objects from OOP view
+qoop codegen \
+--connect jdbc:mysql://localhost/userdb \
+--username root \ 
+--table emp
+
+

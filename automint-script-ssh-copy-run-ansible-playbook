@@ -1,0 +1,5 @@
+#!/bin/bash
+ip = $1
+ssh-copy-id -i /home/rag/.ssh/id_dsa.pub usuariolinux@$ip
+rag@lenovo-dev /etc/ansible $ ansible-playbook -e automint_ip=$ip playbooks/automint.yml 
+

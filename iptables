@@ -1,0 +1,11 @@
+
+#primeros listamos los numeros de cada línea
+iptables -L --line-numbers
+#después eliminamos la ultima drop o la linea que nos haga falta eliminar para conseguir poner las reglas en orden
+iptables -D INPUT 8
+
+#añadimos nuestra nueva regla a la chain INPUT
+iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 9050 -j ACCEPT
+
+#bloqueamos el resto de input , añadiendo un DROP al final de la chain INPUT
+iptables -A INPUT -j DROP
