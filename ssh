@@ -45,6 +45,17 @@ eval $(keychain --eval --agents ssh id_dsa)
 source $HOME/.keychain/$HOSTNAME-sh
 
 
+#connect to Bastion server
+#first adding the private key to ssh-agent
+ssh-add .ssh/raulandres_id_rsa
+#to list
+ssh-add -L
+
+#finally to connect with Agent Forwarding feature
+ssh -A randres@54.76.138.12
+
+#once in, you can connect directly to the host without specify the private key and without to include the private key in bastion server
+ssh newyork
 
 
 

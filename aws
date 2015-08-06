@@ -1,9 +1,9 @@
 
 
 #installing awscli
-sudo apt-get install awscli -y
-sudo apt-get install ec2-api-tools -y
-sudo apt-get install ec2-ami-tools -y
+sudo apt-get install awscli ec2-api-tools ec2-ami-tools -y
+sudo pip install boto -y
+
 #That methods of install maybe is dis-updated
 
 #Better you need to install, downloading first the zip and unpack it and setting the variable environments.

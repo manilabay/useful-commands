@@ -1,0 +1,3 @@
+ansible-playbook -l localhost -i env/demo aws.yml
+./plugins/hosts/hosts.py amazon > group_vars/hosts
+./plugins/env/hosts.py demo > env/demo/hosts

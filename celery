@@ -1,0 +1,66 @@
+#to stop workers, allowing complete its current task before existing
+ps auxww | grep 'celery worker' | awk '{print $2}' | xargs kill
+
+#to shutdown
+ps auxww | grep 'celery worker' | awk '{print $2}' | xargs kill -9
+
+
+#create a instance
+from celery import Celery
+
+app = Celery('tasks', backend='amqp', broker='amqp://')
+
+#'tasks' name to identify our tasks, it will be prepended
+#backend is the results go, to query the status of background task or retrieve its results. If without results this is empty paramenter
+#broker... the url parameter to connect our broker, the rabbitmq
+
+#Build celery tasks
+
+@app.task # this allows celery to identify funcitons that it can add its queuing functions to. After the decorator , we simply create a function that our workers can run
+
+or 
+
+@app.task(ignore_result=True) # to ignore results and say celery dont use the backend to store state information about this task
+
+#now to start a worker processes that will be able to accept connections from apps. It will use the file we just created
+
+celery worker -A tasks &
+
+#this will start up a app in background
+#if you want multiple workers, you can do so by naming each one with the -n argument
+
+celery worker -A tasks -n one.%h &
+celery worker -A tasks -n two.%h &
+
+# %h replace the hostname when the worker is named
+
+#now to use our celery workers we need use in our python apps the .delay method
+primes = gen_prime.delay(50000)
+
+#Celery wraps our functions with additional capabilities. 
+#This task is now being executed by the workers we started earlier.
+#Because we configured a backend parameter for our application, we can check the status of the computation and get access to the result.
+
+#to check
+
+primes.ready()
+
+False
+#When False it means that the task is running and no result yet. When we get True. 
+
+#When results is ready we can use .get method, for example
+
+print primes.get()
+
+or using with timeout will raise an exception if it times out, which you can handle in your program
+
+print primes.get(timeout=2)
+
+
+
+
+
+
+
+
+

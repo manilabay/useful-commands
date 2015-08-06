@@ -1,0 +1,39 @@
+sudo apt-get install meld -y
+
+hg qinit
+hg qnew -m "randres in, msoldat out" randres-in-msoldat-out.patch
+hg qrefresh
+hg postreview
+
+choose the id repository ansible/buildfarm for example is 74 id
+
+--------Ship it -----
+
+hg qfinish randres-in-msoldat-out.patch 
+hg push
+
+------- reviewboard - close - submitted ---------------
+
+if we need to merge 
+http://hgbook.red-bean.com/read/a-tour-of-mercurial-merging-work.html
+
+hg pull
+
+hg heads
+hg merge 
+hg qdiff
+
+#depends
+hg add
+
+hg status
+
+hg parents
+hg commit -m 'Merged changes'
+
+hg tip
+hg push
+
+
+
+
