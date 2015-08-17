@@ -1,3 +1,14 @@
+#config git
+#https://git-scm.com/book/es/v2/Inicio---Sobre-el-Control-de-Versiones-Configurando-Git-por-primera-vez#_first_time
+git config --global user.name "rag"
+git config --global user.email "mctux0@gmail.com"
+git config --global core.editor vim
+
+#para chequear config
+git config --list
+
+
+
 #CREAR REPOS NUEVOS
 ##local
 mkdir proyectonuevo
@@ -16,6 +27,13 @@ exit
 ##local
 git remote add origin ssh://g30web@mctux.com:/~/ansible.mctux.git
 git push origin master
+
+
+##
+git push --set-upstream origin master
+
+##New way to push branches 
+git config push.default=simple
 
 #Si por ejemplo te confundes en establecer la url, olvidas poner .com o cualquier cosa parecida ;) puedes hacer lo siguiente
 git remote set-url origin ssh://g30web@mctux.com:~/ansible.mctux.git
@@ -57,5 +75,115 @@ git push origin #subimos el cambio
 git rm archivo
 #borrar un directorio entero
 git rm -r directorio
+
+
+#BRANCHS
+https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
+
+#before you start to create new feature or solve new issue, you need create a new branch
+#create a new branch for issue 53 and switch to that branch, iss53 is the name of the branch, it can be a new feature, a new issue to solve, any name you need
+git checkout -b iss53
+
+#the last line is the shorthand to do the same with:
+git branch iss53
+git checkout iss53
+
+#work modifying some files
+#Doing so moves the iss53 branch forward, because you have it checked out (that is, your HEAD is pointing to it):
+vim index.html
+git commit -a -m 'added a new footer [issue 53]'
+
+#Now you get the call that there is an issue with the web site, and you need to fix it immediately
+#Then we can switch to master branch 
+git checkout master
+
+#And now all is the same state than before we start with the iss53
+#when you switch branches, Git resets your working directory to look like it did the last time you committed on that branch. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+
+#Now lets to deal with the new hotfix to solve
+#lets create another hotfix branch on which to work until it’s completed:
+
+git checkout -b hotfix
+
+vim index.html
+
+git commit -a -m 'fixed the broken email address'
+
+#once you fix the issue and finish the hotfix you need merge it with the master branch, doing this:
+
+git checkout master
+git merge hotfix
+
+#you will notice about fast-forward, more info in the link of this BRANCH explanation
+#After that, master is fast-forwarded to hotfix
+#To disable fast-forward for all branches in current repository
+git config --add merge.ff false
+
+#Recommendation from Darius was disable fast-forward in global for all the branches in all repositories
+git config --global --add merge.ff false
+
+#And after you finish with you super important hotfix you can switch back to the work you are doing before you interrupted. However you need to delete the hotfix branch, because you no longer need it - the master branch point at the same place
+#You can delete it, with this:
+
+git branch -d hotfix
+
+#Now you can switch back to your work-in-progress branch on issue 53 and continue working on it
+git checkout iss53
+
+#But in your iss53 you havent the hotfix changes, then you can merge the master branch into the iss53 branch, running:
+git merge master
+
+#Or you can wait to complete the iss53 and later inegrate those changes when you decide to pull the iss53 branch back into master later.
+#Ok now suppose you decided that your iss53 is finished and ready to merged into your master branch. In order to do that, you'll merge your iss53 branch into master. Same way when you merge hotfix branch earlier
+#All you need to do is check out the the branch you wish to merge into and then run git merge command
+
+git checkout master
+git merge iss53
+
+#In this case is different because its more older, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two.
+#It’s worth pointing out that Git determines the best common ancestor to use for its merge base; this is different than older tools like CVS or Subversion (before version 1.5), where the developer doing the merge had to figure out the best merge base for themselves. This makes merging a heck of a lot easier in Git than in these other systems.
+
+#now that your work is merged in, we can delete the branch
+git branch -d iss53
+
+#Conflicts
+#If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able to merge them cleanly. If your fix for issue #53 modified the same part of a file as the hotfix, you’ll get a merge conflict that looks something like this:
+#When you get CONFLICT (content): Merge conflict in index.html for example, after run git merge iss53 
+
+#to see what files is unmerged after a merge conflict you can review with
+git status
+
+#After resolve your conflicts between files you need to indicate it, running 
+#run git add on each file to mark it as resolved.
+
+#This resolution has a little of each section, and the <<<<<<<, =======, and >>>>>>> lines have been completely removed. After you’ve resolved each of these sections in each conflicted file, run git add on each file to mark it as resolved. Staging the file marks it as resolved in Git.
+
+#if you want to use a graphical tool to resolve conflicts
+git mergetool
+
+#you need to config merge.tool an assign your favorite diff tool. For example meld, then you need to run this command to config
+git config --global merge.tool meld
+
+#ok, after resolve the merge conflict
+#Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you.
+#you can run status again to see if all conflicts is resolved
+git status
+
+#then if you are happy with all you need to finish the commit and merge with
+git commit
+
+#it will show you a default message about the merge conflic, you can change it because later or yourself to understand it , if you want
+
+#end_git() ;)
+
+
+
+
+
+
+
+
+
+
 
 
