@@ -47,7 +47,7 @@ git remote rm origin
 git status
 
 #para clonar el repo en otra maquina
-git clone ssh://g30web@mctux.com:/~/ansible.mctux.git
+git clone ssh://g30web@mctux.com:/~/ansible.git
 
 #TRABAJAR CON VERSIONES/RELEASES
 git tag -a v0.1 -m 'my first version 0.1' # para crear una version del ultimo cambio

@@ -2,6 +2,9 @@
 
 #sudo apt-get install apparmor
 
+#asegurar soporte de aufs esta definido
+sudo aptitude install linux-image-extra-`uname -r`
+
 #installing docker
 sudo wget -qO- https://get.docker.com/ | sh
 

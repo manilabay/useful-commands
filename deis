@@ -1,0 +1,17 @@
+#First install deisctl
+
+mkdir bin
+cd bin
+
+#dowload script and install
+curl -sSL http://deis.io/deisctl/install.sh | sh -s 1.9.1
+
+#create a link
+sudo ln -fs $PWD/deisctl /usr/local/bin/deisctl
+
+#install Deis client
+curl -sSL http://deis.io/deis-cli/install.sh | sh
+
+#create a link
+sudo ln -fs $PWD/deis /usr/local/bin/deis
+
