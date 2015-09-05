@@ -1,0 +1,44 @@
+pip install sphinx sphinx_rtd_theme
+
+Create a Sphinx Project
+=======================
+
+If you are cloning this repo, stop.
+You do not need to perform the steps in this section.
+
+Create a directory to house the Sphinx project::
+
+ mkdir docs
+ cd docs
+
+ # generate a new empty Sphinx Project skeleton.
+ # accept the default options for a generic project or customize if needed.
+ sphinx-quickstart
+
+
+Sphinx Anatomy
+================
+
+source:
+ This directory contains ReStructuredText (rst) sourcecode files that may compile or build to different documentation formats.
+
+build:
+ Contains the output from building the rst sourcecode into different documentation formats.
+
+
+Build HTML and setup test webserver
+=====================================
+
+Get a list of possible output formats::
+
+ make
+
+Generate HTML from rst source::
+
+ make html
+
+Setup a test webserver::
+
+ # cd build/html/ && python -m SimpleHTTPServer
+ make serve
+

@@ -17,3 +17,4 @@ sudo usermod -aG docker rag
 
 #para descargar y usar una imagen hacemos
 docker pull cpuguy83/nagios 
+inspect -f '{{ .NetworkSettings.IPAddress }}'
