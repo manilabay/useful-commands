@@ -1,9 +1,0 @@
-import tmuxp
-
-server = tmuxp.Server()
-
-session = server.findWhere({ "session_name": "a_tmuxp_session" })
-
-window = session.new_window(attach=False, window_name="a_tmuxp_s")
-
-
