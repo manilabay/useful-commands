@@ -15,11 +15,11 @@ It isn´t in any case a final version or completed version.
 
 ## Remarkable files to have a look
 
-* autoformatic (custom project by author Raul Andres)
+* autoformatic and automatic-gentoo (custom project by author Raul Andres)
 * celery
 * git
 * mercurial
 * iptables
-* ssh 
+* ssh
 * syntax_check.py
 * valid-yaml.py
