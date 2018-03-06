@@ -12,3 +12,14 @@ It doesn´t follow the best gitflow best practices for SDLC and the author only 
 It isn´t in any case a final version or completed version.
 
 **Enjoy!**
+
+## Remarkable files to have a look
+
+* autoformatic (custom project by author Raul Andres)
+* celery
+* git
+* mercurial
+* iptables
+* ssh 
+* syntax_check.py
+* valid-yaml.py
