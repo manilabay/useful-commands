@@ -4,10 +4,11 @@ git config --global user.name "rag"
 git config --global user.email "mctux0@gmail.com"
 git config --global core.editor vim
 
+#The point of this helper is to reduce the number of times you must type your username or password, integrate as a step in your CI
+git config credential.helper store
+
 #para chequear config
 git config --list
-
-
 
 #CREAR REPOS NUEVOS
 ##local
