@@ -21,7 +21,7 @@ git config credential.helper store
 6) 
 git remote add upstream https://github.com/ethereumbook/ethereumbook.git
 git checkout develop
-git pull upstream develop
+git pull upstream develop (this command you must run specially when you have conflicts when request PRs)
 this above lines will keep your forked project synced with the source git project you forked the first time when you started to collaborate in that new cool project ;)
 
 8) Now when you create a branch you will create from your develop branch from your forked github project
