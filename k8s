@@ -1,3 +1,5 @@
+#DEBUG APPs deployment, pod, services, endpoints
+
 #debug pods
 kubectl describe pods ${POD_NAME}
 kubectl describe rc ${CONTROLLER_NAME} # for the replication controllers
@@ -14,6 +16,10 @@ kubectl get endpoints ${SERVICE_NAME}
 #run commands to check
 kubectl exec ${POD_NAME} -c ${CONTAINER_NAME} -- ${CMD} ${ARG1} ${ARG2} ... ${ARGN}
 kubectl exec cassandra -- cat /var/log/cassandra/system.log
+OR
+kubectl exec -it container-name -- /bin/bash
+OR if multiple containers in the same pod
+kubectl exec -it my-pod --container main-app -- /bin/bash
 
 #validate pods yaml files
 kubectl create --validate -f mypod.yaml
@@ -72,6 +78,18 @@ cat /tmp/nginx.key | base64
 #edit and fill a new  nginx-secrets.yaml with the key pair secrets from above step
 #and run create the secrets objects
 kubectl create -f nginx-secrets.yaml 
+
+#DEBUG CLUSTER
+
+#Master
+/var/log/kube-apiserver.log - API Server, responsible for serving the API
+/var/log/kube-scheduler.log - Scheduler, responsible for making scheduling decisions
+/var/log/kube-controller-manager.log - Controller that manages replication controllers
+
+#Worker Nodes
+/var/log/kubelet.log - Kubelet, responsible for running containers on the node
+/var/log/kube-proxy.log - Kube Proxy, responsible for service load balancing
+
 
 
 
