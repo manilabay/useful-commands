@@ -1,0 +1,27 @@
+#DEBUG CLUSTER
+
+#main logs to check
+
+#Master
+/var/log/kube-apiserver.log - API Server, responsible for serving the API
+/var/log/kube-scheduler.log - Scheduler, responsible for making scheduling decisions
+/var/log/kube-controller-manager.log - Controller that manages replication controllers
+
+#Worker Nodes
+/var/log/kubelet.log - Kubelet, responsible for running containers on the node
+/var/log/kube-proxy.log - Kube Proxy, responsible for service load balancing
+
+#TO-DO build the grep -e command with the list of kubernetes common errors to fish
+grep -R -e "error|critical|warning" /var/log/kube*
+
+#get cluster nodes
+kubectl get nodes
+
+#describe cluter node
+kubectl describe node docker-for-desktop
+
+#describe the events for a pod
+kubectl describe pod my-nginx | grep -A 3 Events
+
+#check resources 
+kubectl get pod -o go-template='{{range.status.containerStatuses}}{{"Container Name: "}}{{.name}}{{"\r\nLastState: "}}{{.lastState}}{{end}}'  pod-name
