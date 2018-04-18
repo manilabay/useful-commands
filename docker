@@ -6,6 +6,9 @@ docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm
 #eliminar dangling images
 docker rmi $(docker images -f "dangling=true" -q)
 
+#cambiar restart policy
+docker update --restart=no my-container
+
 #sudo apt-get install apparmor
 
 #asegurar soporte de aufs esta definido

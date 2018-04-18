@@ -1,0 +1,78 @@
+#debug pods
+kubectl describe pods ${POD_NAME}
+kubectl describe rc ${CONTROLLER_NAME} # for the replication controllers
+
+#debug logs
+kubectl logs ${POD_NAME} ${CONTAINER_NAME}
+
+#debug previous crashes
+kubectl logs --previous ${POD_NAME} ${CONTAINER_NAME}
+
+#debug endpoints 
+kubectl get endpoints ${SERVICE_NAME}
+
+#run commands to check
+kubectl exec ${POD_NAME} -c ${CONTAINER_NAME} -- ${CMD} ${ARG1} ${ARG2} ... ${ARGN}
+kubectl exec cassandra -- cat /var/log/cassandra/system.log
+
+#validate pods yaml files
+kubectl create --validate -f mypod.yaml
+kubectl delete pod,service baz foo
+
+#get pod yaml on apiserver and compare with your pod spec
+kubectl get pods/mypod -o yaml > mypod-on-apiserver.yaml
+diff mypod-on-apiserver.yaml newpod.yaml
+
+
+#get pods by selector and check if the list match with the expected pods to provide your service
+kubectl get pods --selector=name=nginx,type=frontend
+
+#verify the pod’s containerPort matches up with the Service’s containerPort
+kubectl describe svc my-nginx
+
+#verify the service
+kubectl get svc my-nginx
+
+kubectl exec my-nginx-3800858182-e9ihh -- printenv | grep SERVICE
+
+#create 
+kubectl create -f ./nginx.yaml 
+#check
+kubectl get pods -l run=my-nginx -o wide
+
+#check IP
+kubectl get pods -l run=my-nginx -o yaml | grep podIP
+
+#expose a Service, create a service. But better to use a yaml file to create the service kubectl create -f ./nginx-svc.yaml
+kubectl expose deployment/my-nginx
+
+#verify your service
+kubectl get svc my-nginx
+kubectl describe svc my-nginx
+
+#verify your endpoints ep
+kubectl get ep my-nginx
+
+#descale and scale, this will kill and recreate them
+kubectl scale deployment my-nginx --replicas=0; kubectl scale deployment my-nginx --replicas=2;
+
+#check if skydns kube dns is running
+kubectl get services kube-dns --namespace=kube-system
+
+#check nslookup 
+kubectl run curl --image=radial/busyboxplus:curl -i --tty
+nslookup my-nginx
+
+#generate self-signed certificates, generating key pair private and public key
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/nginx.key -out /tmp/nginx.crt -subj "/CN=my-nginx/O=my-nginx"
+#convert to base64
+cat /tmp/nginx.crt | base64
+cat /tmp/nginx.key | base64
+
+#edit and fill a new  nginx-secrets.yaml with the key pair secrets from above step
+#and run create the secrets objects
+kubectl create -f nginx-secrets.yaml 
+
+
+
+
