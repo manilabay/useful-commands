@@ -25,3 +25,6 @@ kubectl describe pod my-nginx | grep -A 3 Events
 
 #check resources 
 kubectl get pod -o go-template='{{range.status.containerStatuses}}{{"Container Name: "}}{{.name}}{{"\r\nLastState: "}}{{.lastState}}{{end}}'  pod-name
+
+#check a replication controller
+kubectl describe rc ${CONTROLLER_NAME}

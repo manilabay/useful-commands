@@ -1,0 +1,41 @@
+#run a debug pod to troubleshoting from it
+kubectl run -it --rm --restart=Never busybox --image=busybox sh
+
+#OR run a pod you have already
+kubectl exec <POD-NAME> -c <CONTAINER-NAME> -- <COMMAND>
+
+#SIMULATION
+kubectl run hostnames --image=k8s.gcr.io/serve_hostname \
+                        --labels=app=hostnames \
+                        --port=9376 \
+                        --replicas=3
+
+
+#check pods are running
+kubectl get pods -l app=hostnames
+
+#check if exist a service associated to the pods
+kubectl get svc hostnames
+
+#lets create it
+kubectl expose deployment hostnames --port=80 --target-port=9376
+
+#checking dns resolution from inside a pod
+nslookup hostnames
+nslookup hostnames.default
+nslookup hostnames.FQDN
+#if some of the previous one fails will be required to check /etc/resolv.conf and application call configurations
+nslookup kubernetes.default #kubernetes master resolution should always works, if it doesnt works, it could be a DNS system problem or kube-proxy problem
+
+#check ports configuration and test with curl/wget to the endpoints:port within a pod container or the busybox container
+
+#if it continues failing it is time to review kube-proxy
+#first check if running
+ps auxw | grep kube-proxy
+
+#if it isnt running time to check logs
+/var/log/kube-proxy.log
+or using journalctl  
+
+
+
