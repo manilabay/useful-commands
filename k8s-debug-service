@@ -37,5 +37,27 @@ ps auxw | grep kube-proxy
 /var/log/kube-proxy.log
 or using journalctl  
 
+#OR
+
+#check if there are logs by DNS daemons subcomponents
+#check by the beginning by E, W, F letters
+kubectl logs --namespace=kube-system $(kubectl get pods --namespace=kube-system -l k8s-app=kube-dns -o name) -c kubedns
+kubectl logs --namespace=kube-system $(kubectl get pods --namespace=kube-system -l k8s-app=kube-dns -o name) -c dnsmasq
+kubectl logs --namespace=kube-system $(kubectl get pods --namespace=kube-system -l k8s-app=kube-dns -o name) -c sidecar
+
+#check if the DNS k8s Service is UP
+kubectl get svc --namespace=kube-system
+
+#check if the DNS endpoints are exposed
+kubectl get ep kube-dns --namespace=kube-system
+
+#KUBE-PROXY IPTABLES DEBUG
+
+#For old Userspace mode(which is deprecated) it should appear 2 rules for each port in your service KUBE-PORTALS-CONTAINER and KUBE-PORTALS-HOST
+#For iptables mode it should appear a set of: 1 rule KUBE-SERVICES, 1/2 rule per endpoint KUBE-SVC-HASH (depends of SessionAfinitty) KUBE-SEP-(hash) chain per endpoint, and a few rules in each KUBE-SEP-(hash) chain
+
+
+#run the iptables command to check
+u@node$ iptables-save | grep hostnames #hostnames is the fiction/simulate Service in this debug guide
 
 

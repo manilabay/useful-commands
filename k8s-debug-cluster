@@ -1,5 +1,13 @@
 #DEBUG CLUSTER
 
+kubectl cluster-info
+
+kubectl config view
+
+#for users and secrets
+kubectl describe secret
+
+
 #check the k8s system 
 kubectl get pods --namespace=kube-system
 It should show something like:
