@@ -1,5 +1,16 @@
 #DEBUG CLUSTER
 
+#check the k8s system 
+kubectl get pods --namespace=kube-system
+It should show something like:
+NAME                                         READY     STATUS    RESTARTS   AGE
+etcd-docker-for-desktop                      1/1       Running   0          1d
+kube-apiserver-docker-for-desktop            1/1       Running   0          1d
+kube-controller-manager-docker-for-desktop   1/1       Running   0          1d
+kube-dns-6f4fd4bdf-kqqkk                     3/3       Running   0          1d
+kube-proxy-chz7r                             1/1       Running   0          1d
+kube-scheduler-docker-for-desktop            1/1       Running   0          1d
+
 #main logs to check
 
 #Master
