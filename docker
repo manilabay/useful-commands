@@ -34,3 +34,13 @@ export REGISTRY=registry.dns.endpoint
 docker tag hello-webapp:v1 $REGISTRY/hello-webapp:v1
 
 docker push $REGISTRY/hello-webapp:v1
+
+#LOGIN
+docker login
+
+#TAG
+docker tag image username/repository:tag
+docker tag friendlyhello john/get-started:part2
+
+#PUBLISH
+docker push username/repository:tag
