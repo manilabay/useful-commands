@@ -1,3 +1,6 @@
+#switch context, cluster and use the user from exp-frontend context
+kubectl config --kubeconfig=config-demo use-context exp-frontend
+
 #CHECK EVENTS AND REASON BY POD
 pod=$(kubectl get pods --selector="name=bad-frontend" --output=jsonpath={.items..metadata.name})
 kubectl describe pod $pod
