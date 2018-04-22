@@ -1,0 +1,33 @@
+#CHECK EVENTS AND REASON BY POD
+pod=$(kubectl get pods --selector="name=bad-frontend" --output=jsonpath={.items..metadata.name})
+kubectl describe pod $pod
+
+
+#Error ImageInspectError
+kubectl set image deployment/http http=docker.io/katacoda/docker-http-server:latest
+
+#DASHBOARD YAML DEF, URL
+https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+
+#USING KOMPOSE TO RUN DOCKER COMPOSE INSIDE K8s
+#Install
+curl -L https://github.com/kubernetes/kompose/releases/download/v1.9.0/kompose-linux-amd64 -o /usr/bin/kompose && chmod +x /usr/bin/kompose
+
+#to run
+kompose up
+
+#Convert docker-compose files to k8s manifests
+kompose convert
+
+#HELM
+#install
+curl -LO https://storage.googleapis.com/kubernetes-helm/helm-v2.8.2-linux-amd64.tar.gz
+tar -xvf helm-v2.8.2-linux-amd64.tar.gz
+mv linux-amd64/helm /usr/local/bin/
+
+#init and update helm
+helm init
+helm repo update
+
+#WEAVE SCOPE
+kubectl create -f 'https://cloud.weave.works/launch/k8s/weavescope.yaml'

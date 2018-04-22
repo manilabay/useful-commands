@@ -1,14 +1,19 @@
 #DEBUG CLUSTER
+kubectl get all
+kubectl get cs
+kubectl get cronjob
 
 kubectl cluster-info
-
 kubectl config view
+
+#KUBE CONFIG
+$HOME/.kube/config
 
 #for users and secrets
 kubectl describe secret
 
 
-#check the k8s system 
+#check the k8s system
 kubectl get pods --namespace=kube-system
 It should show something like:
 NAME                                         READY     STATUS    RESTARTS   AGE
@@ -42,7 +47,7 @@ kubectl describe node docker-for-desktop
 #describe the events for a pod
 kubectl describe pod my-nginx | grep -A 3 Events
 
-#check resources 
+#check resources
 kubectl get pod -o go-template='{{range.status.containerStatuses}}{{"Container Name: "}}{{.name}}{{"\r\nLastState: "}}{{.lastState}}{{end}}'  pod-name
 
 #check a replication controller

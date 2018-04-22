@@ -1,6 +1,12 @@
 #DEBUG APPs deployment, pod, services, endpoints
+kubectl get all
+kubectl get deployment,svc,pods,pvc -n <namespace>
 
-#describe the events for a pod 
+#CHECK EVENTS AND REASON BY POD
+pod=$(kubectl get pods --selector="name=bad-frontend" --output=jsonpath={.items..metadata.name})
+kubectl describe pod $pod
+
+#describe the events for a pod
 kubectl describe pod my-nginx | grep -A 3 Events
 
 #debug pods
@@ -13,7 +19,7 @@ kubectl logs ${POD_NAME} ${CONTAINER_NAME}
 #debug previous crashes
 kubectl logs --previous ${POD_NAME} ${CONTAINER_NAME}
 
-#debug endpoints 
+#debug endpoints
 kubectl get endpoints ${SERVICE_NAME}
 
 #run commands to check
@@ -44,8 +50,8 @@ kubectl get svc my-nginx
 
 kubectl exec my-nginx-3800858182-e9ihh -- printenv | grep SERVICE
 
-#create 
-kubectl create -f ./nginx.yaml 
+#create
+kubectl create -f ./nginx.yaml
 #check
 kubectl get pods -l run=my-nginx -o wide
 
@@ -68,7 +74,7 @@ kubectl scale deployment my-nginx --replicas=0; kubectl scale deployment my-ngin
 #check if skydns kube dns is running
 kubectl get services kube-dns --namespace=kube-system
 
-#check nslookup 
+#check nslookup
 kubectl run curl --image=radial/busyboxplus:curl -i --tty
 nslookup my-nginx
 
@@ -80,5 +86,4 @@ cat /tmp/nginx.key | base64
 
 #edit and fill a new  nginx-secrets.yaml with the key pair secrets from above step
 #and run create the secrets objects
-kubectl create -f nginx-secrets.yaml 
-
+kubectl create -f nginx-secrets.yaml

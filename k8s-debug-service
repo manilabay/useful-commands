@@ -1,4 +1,8 @@
 #run a debug pod to troubleshoting from it
+kubectl get all
+kubectl get ev
+kubectl get pv
+
 kubectl run -it --rm --restart=Never busybox --image=busybox sh
 
 #OR run a pod you have already
@@ -35,7 +39,7 @@ ps auxw | grep kube-proxy
 
 #if it isnt running time to check logs
 /var/log/kube-proxy.log
-or using journalctl  
+or using journalctl
 
 #OR
 
@@ -59,5 +63,3 @@ kubectl get ep kube-dns --namespace=kube-system
 
 #run the iptables command to check
 u@node$ iptables-save | grep hostnames #hostnames is the fiction/simulate Service in this debug guide
-
-

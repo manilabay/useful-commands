@@ -25,5 +25,12 @@ sudo usermod -aG docker rag
 #a partir de aqui podemos correr docker sin tener que poner siempre sudo delante
 
 #para descargar y usar una imagen hacemos
-docker pull cpuguy83/nagios 
+docker pull cpuguy83/nagios
 inspect -f '{{ .NetworkSettings.IPAddress }}'
+
+#REGISTRY
+export REGISTRY=registry.dns.endpoint
+
+docker tag hello-webapp:v1 $REGISTRY/hello-webapp:v1
+
+docker push $REGISTRY/hello-webapp:v1
