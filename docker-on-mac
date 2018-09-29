@@ -1,0 +1,18 @@
+#Now Docker on mac + k8s accept to install docker on mac with Stable channel
+#Follow current instructions to download it and install it, basically download dmg and install it
+#Once installed go to Whale and Kubernetes section and enable it, it will take some minutes (depends your internet connection to get the setup done, meanwhile it will show you Kubernetes is starting...
+
+#Helm
+Helm has a client(helm) and a server(tiller)
+
+#Installation
+brew install helm
+
+#Helm config
+#This will install Tiller into the Kubernetes cluster
+helm init
+
+#to upgrade Tiller
+helm init --upgrade
+
+run: helm version, to see helm client and tiller server version
