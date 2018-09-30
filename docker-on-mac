@@ -16,3 +16,12 @@ helm init
 helm init --upgrade
 
 run: helm version, to see helm client and tiller server version
+
+#to deploy charts
+helm install --name grafana stable/grafana
+
+#to delete (delete all the k8s components related with the chart and delete the release)
+helm delete grafana
+
+#to get chart instructions
+git status grafana
