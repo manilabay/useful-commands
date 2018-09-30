@@ -1,0 +1,9 @@
+#wellcome to my nodejs app developemnt cheatsheet and good enough tools to develop quick and good
+
+#install express nodejs framework and express-generator
+npm install express-generator -g
+
+#create a new app
+express --view=pug myapp
+or
+express mynewapp
