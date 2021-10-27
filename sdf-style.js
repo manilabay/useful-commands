@@ -1,6 +1,4 @@
 const styles = `
-#mark {background-color: #004481;}
-
 #qu-md table {
     padding: 0; width: 100%; font-family: Lato, sans-serif; border-collapse: collapse;
 }
@@ -38,7 +36,8 @@ const styles = `
   text-align: left;
   margin: 0;
   padding: 6px 13px;
-  background: rgba(34,110,147,1);
+  /*background: rgba(34,110,147,1);*/
+  background: #004481;
   color: white;
 }
 `;
