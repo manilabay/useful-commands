@@ -1,4 +1,6 @@
 const styles = `
+#mark {background-color: #004481;}
+
 #qu-md table {
     padding: 0; width: 100%; font-family: Lato, sans-serif; border-collapse: collapse;
 }
